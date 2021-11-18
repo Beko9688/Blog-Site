@@ -1,0 +1,74 @@
+{% load static %}
+{% load cache %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+
+<!-- CSS only -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <div class="wrapper">
+
+<!--         {% cache 20 header %} -->
+        {% include 'includes/header.html' %}
+<!--         {% endcache %} -->
+
+        <div style="background-color:#40c4ff;">
+            <div style="display: flex; flex-direction: row;  justify-content: center;">
+                
+                {% if user.is_authenticated %}
+                <div style="color: white; margin-left: 60px; margin-right: 60px;" align="center"><b>Welcome | {{user.username}}</b></div>
+                
+                <!-- <a href="" style="color: white; margin-left: 80px;">Add article</a> -->
+                <a href="{% url 'logout' %}" style="color: white; margin-left: 80px; margin-right:80px;""><b>Logout </b><i class="fas fa-sign-out-alt"></i></a>
+            
+      
+                {% else %}
+                <div style="width:775px;"></div>
+                <a href="{% url 'login' %}" style="color: white; margin-left: 60px; margin-right: 60px;"><i class="fas fa-sign-in-alt"></i><b> Login</b></a>
+                <a href="{% url 'register' %}" style="color: white; margin-left: 80px; margin-right:80px;"><i class="fas fa-user-edit"></i><b> Register</b></a>
+                
+                {% endif %}    
+
+            </div>
+        </div>
+
+                 {% if user.is_superuser %}
+                <a href="http://127.0.0.1:8000/admin">Admin</a>          
+                {% endif %}    
+                
+        {% block content %} {% endblock %}
+        
+        {% block single-content %} {% endblock %}
+
+        {% block register %} {% endblock %}        
+        {% block login %} {% endblock %}
+
+<!--         {% cache 20 footer %} -->
+        {% include 'includes/footer.html' %}
+<!--         {% endcache %} -->
+    </div>
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/active.js' %}"></script>
+</body>
+
+</html>

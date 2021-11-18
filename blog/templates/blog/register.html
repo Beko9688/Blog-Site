@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+
+{% block register %}
+<div class="container">
+	<div class="row justify-content-center"> 
+		<div style="width: 800px; padding-left:280px; margin-left: 40px;" class="my-4">
+			
+			<form method="post" align="center">
+
+    			<div align="center">
+
+    				<h2 align="center">Registration</h2>
+
+         			{% if messages %}
+           				 {% for message in messages %}
+              				  {% if message.tags == 'error' %}
+           						 <div class="alert alert-danger" role="alert">
+	           					 {{message}}
+								 </div>
+         					  {% else %}
+            					<div class="alert alert-{{message.tags}}" role="alert">
+	            				{{message}}
+								</div>
+                			  {% endif %}
+            		    {% endfor %}
+                    {% endif %}
+
+					{% csrf_token %}
+					{{form.as_p}}
+
+        			<button type="submit" class="btn btn-primary mb-3">Регистрация</button>
+    			</dir>
+			</form>
+
+		</div>
+	</div>
+</div>
+<br>
+<br>
+{% endblock %}

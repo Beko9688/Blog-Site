@@ -1,0 +1,67 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title %}  {{title}} :: {{block.super}}  {% endblock %}
+
+{% block content%}
+
+<section class="blog-post-area">
+	<div class="container">
+		<div class="row">
+			<div class="blog-post-area-style">
+				<div class="border-top" style="border-top:2px solid #40c4ff;">
+				{% for post in posts %}
+				<div class="col-md-3">
+					<div class="single-post" style="margin-top:25px; margin-bottom:25px;">
+
+						{% if post.photo %}
+						<a href="{{ post.get_absolute_url}}"><img src="{{ post.photo.url }}" alt="{{post.title}}"></a>
+						{% else %}
+						<img src="https://picsum.photos/id/237/300/200/?blur=2" alt="{{post.title}}">
+						{% endif %}
+
+						<h3><a href="{{ post.get_absolute_url}}">{{post.title}}</a></h3>
+						<h4><span>Posted By: <span class="author-name">{{post.author}}</span></span>
+						</h4>
+						<p>{{post.content|safe|truncatewords_html:20}}</p>
+						<h4><span><i class="far fa-calendar-alt"></i> {{post.created_at|date:"j.m.Y"}}     </span><span><i class="fas fa-eye"></i> {{post.views}}</span></h4>
+
+					</div>
+				</div>
+				{% empty %}
+					<h3>По вашему запросу ничего не найдено</h3><br>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if page_obj.has_other_pages %}
+	<div class="pegination">
+		<div class="nav-links">
+
+			{% if page_obj.has_previous %}
+			<a class="page-numbers" href="?{{s}}page={{ page_obj.previous_page_number }}"><i class="fa fa-angle-left"
+			                                                                            aria-hidden="true"></i></a>
+			{% endif %}
+
+			{% for p in page_obj.paginator.page_range %}
+			{% if page_obj.number == p %}
+			<span class="page-numbers current">{{ p }}</span>
+			{% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+			<a class="page-numbers" href="?{{s}}page={{p}}">{{ p }}</a>
+			{% endif %}
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<a class="page-numbers" href="?{{s}}page={{ page_obj.next_page_number }}"><i class="fa fa-angle-right"
+			                                                                        aria-hidden="true"></i></a>
+			{% endif %}
+		</div>
+	</div>
+	{% else %}
+	<br> <br>
+	{% endif %}
+</section>
+
+{% endblock %}
